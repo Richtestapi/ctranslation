@@ -22,48 +22,19 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd backend
           pip install -r requirements.txt
 
       - name: Run Django tests
         run: |
-          cd backend
           python manage.py test
-
-  build-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
-
-      - name: Run Vue.js tests
-        run: |
-          cd frontend
-          npm run test
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [build-backend, build-frontend]
+    needs: [build-backend]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Deploy Backend
         run: |
-          cd backend
           # Add your deployment commands here, e.g., AWS, Heroku, etc.
-      
-      - name: Deploy Frontend
-        run: |
-          cd frontend
-          # Add your deployment commands here for the frontend
